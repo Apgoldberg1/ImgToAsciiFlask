@@ -1,0 +1,98 @@
+<html>  
+<head>  
+<title>success</title>  
+</head>  
+<body style="background-color: black; color: white" id="body">  
+<p>File uploaded successfully</p>  
+<p>File Name: {{name}}</p>  
+<script>
+    console.log("{{color}}")
+</script>
+{% if color == "False"%}
+<style>
+pre{
+    background: linear-gradient(-13deg, #00ff37, #00ff37, 
+     #fbff02, #ff4e4e, #ff4e4e);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text; 
+    font-weight: 1000;
+    color:transparent;
+    font-size: {{dims}}vw; 
+}
+</style>
+{% else %}
+<style>
+pre{
+    font-size: 5px;
+    font-weight: 1000;
+    line-height: 2px;
+}
+</style>
+{% endif %}
+<pre id = "Art"></pre>
+<script>
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        document.getElementById('Art').innerHTML = this.responseText;
+    };
+    if ("{{color}}".localeCompare('True') ==0){
+        xhr.open('GET', "/static/spanOut.txt");
+    }
+    else {
+        xhr.open('GET', "/static/Output.txt");
+    }
+    xhr.send();
+
+</script>
+
+<form action = "/success" method = "post" enctype="application/x-www-form-urlencoded" id="scaleForm"> 
+    <input name = "scale" value = "{{scale}}" type="range" min="1" max="30" step="1" oninput="this.nextElementSibling.value = this.value; document.getElementById('scaleForm').submit()">
+    <output>{{scale}} Scale</output>
+    
+</form>
+<input name = "color1" type="color" oninput="this.nextElementSibling.value = this.value; document.getElementById('body').style.backgroundColor = this.value">
+<output>0 Background</output>
+
+<input id = "lin1" name = "linColor1" type="color" oninput="this.nextElementSibling.value = 'Gradient Color 1: ' + this.value; document.getElementById('Art').style.background = 'linear-gradient(-13deg, ' + document.getElementById('lin1').value + ', ' + document.getElementById('lin2').value + ', ' + document.getElementById('lin3').value + ')'; document.getElementById('Art').style['-webkit-background-clip'] = 'text';">
+<output>Gradient Color 1: </output>
+<input id = "lin2" name = "linColor2" type="color" oninput="this.nextElementSibling.value = 'Gradient Color 2: ' + this.value; document.getElementById('Art').style.background = 'linear-gradient(-13deg, ' + document.getElementById('lin1').value + ', ' + document.getElementById('lin2').value + ', ' + document.getElementById('lin3').value + ')'; document.getElementById('Art').style['-webkit-background-clip'] = 'text';"> 
+<output>Gradient Color 2: </output>
+<input id = "lin3" name = "linColor3" type="color" oninput="this.nextElementSibling.value = 'Gradient Color 3: ' + this.value; document.getElementById('Art').style.background = 'linear-gradient(-13deg, ' + this.value + ', ' + this.value + ', ' + this.value + ')'; document.getElementById('Art').style.background = 'linear-gradient(-13deg, ' + document.getElementById('lin1').value + ', ' + document.getElementById('lin2').value + ', ' + document.getElementById('lin3').value + ')'; document.getElementById('Art').style['-webkit-background-clip'] = 'text';">
+<output>Gradient Color 3: </output>
+
+<br>
+
+<input name = "lineHeight" value = .4 type="range" min=".1" max="2" step=".05" oninput="this.nextElementSibling.value = 'Line Spacing: ' + this.value; document.getElementById('Art').style.lineHeight = this.value">
+<output>lineHeight</output>
+<br>
+
+<script>
+
+    console.log(parseInt(getComputedStyle(document.getElementById('Art')).fontSize))
+</script>
+<!--parseFloat stuff doesn't set default value-->
+<input name = "fontSize" value = "parseInt((getComputedStyle(document.getElementById('Art'))).fontSize)" type="range" min=".1" step=".1" max="20" oninput="this.nextElementSibling.value = 'Font Size: ' + this.value; document.getElementById('Art').style.fontSize = this.value + 'px'">
+<output>fontSize</output>
+
+<br>
+<input name = "LetterSpacing" value = "1" type="range" min="-4" step=".1" max="4" oninput="this.nextElementSibling.value = 'Letter Spacing: ' + this.value; document.getElementById('Art').style.letterSpacing = this.value">
+<output>Letter Spacing</output>
+
+<br>
+<form action = "/success" method = "post" enctype="application/x-www-form-urlencoded" id="colorForm"> 
+    <input id = "colorCheck" name = "color" type="checkbox"  oninput="this.nextElementSibling.value = 'Color: ' + this.value; document.getElementById('colorForm').submit();">
+    <output>Color</output>
+</form>
+
+{% if color=='True' %}
+    <script>
+        document.getElementById("colorCheck").checked = true;
+    </script>
+{% endif %}
+
+
+
+
+</body>  
+</html>  

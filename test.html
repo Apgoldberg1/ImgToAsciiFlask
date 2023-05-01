@@ -1,0 +1,33 @@
+<body>
+<canvas id="toDraw" width = "10000" height = "1000">
+
+
+
+</canvas>
+
+<script>
+   var canvas = document.getElementById("toDraw");
+   var ctx = canvas.getContext("2d");
+
+   ctx.fontSize = "1px";
+
+ctx.fillStyle = "black";
+
+var counter = 1
+var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        this.response.split(/\r?\n/).forEach((line) => {
+            counter += 1;
+            ctx.fillText(line, 0, counter*5, 1000);
+
+        });
+    };
+    xhr.open('GET', "/static/Output.txt");
+    xhr.send();
+
+    const img = canvas.toDataURL('image/png');
+    document.write('<img src="'+img+'"/>');
+
+</script>
+
+</body>
